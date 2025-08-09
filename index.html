@@ -12,8 +12,6 @@
   *{box-sizing:border-box}
   body{margin:0;background:linear-gradient(180deg,var(--blue) 0%, #eef5ff 30%, var(--bg) 100%);color:var(--ink);
        font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Arabic","Noto Naskh Arabic",sans-serif}
-  a{color:inherit;text-decoration:none}
-
   .shell{max-width:1100px;margin:auto;padding:16px}
   header{background:#fff;border:1px solid var(--line);border-radius:20px;padding:10px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow)}
   .brand{display:flex;align-items:center;gap:10px}
@@ -42,8 +40,8 @@
   .grid{display:grid;gap:14px}
   @media(min-width:700px){ .grid{grid-template-columns: repeat(3, 1fr)} }
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:12px;display:flex;flex-direction:column;gap:10px}
-  .thumb{border-radius:14px;aspect-ratio: 4/3;background:
-         linear-gradient(145deg,#d3e6ff,#e7f0fb);border:1px dashed rgba(200,154,43,.35)}
+  .thumb{border-radius:14px;aspect-ratio: 4/3;background:#eef5ff;border:1px dashed rgba(200,154,43,.35);overflow:hidden}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
   .price{font-weight:800}
   .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .mini{font-size:12px;color:var(--muted)}
@@ -121,11 +119,13 @@
   </div>
 
 <script>
+/* الصور التي رفعتها بأسمائها الحالية */
 const DESIGNS = [
-  { id:"dz1", title:"طريز صدر كلاسيكي", price:28000, colors:["#e7f0fb","#ffffff","#c89a2b"] },
-  { id:"dz2", title:"طريز حديث مطوّل",   price:32000, colors:["#d9e8ff","#ffffff","#c89a2b"] },
-  { id:"dz3", title:"طريز ثقيل ذهبي",    price:40000, colors:["#cfe0ff","#ffffff","#c89a2b"] },
+  { id:"dz1", title:"طريز كلاسيكي", price:28000, colors:["#e7f0fb","#ffffff","#c89a2b"], img:"images/images (1) (1).jpeg" },
+  { id:"dz2", title:"طريز عصري",    price:32000, colors:["#d9e8ff","#ffffff","#c89a2b"], img:"images/images (14).jpeg" },
+  { id:"dz3", title:"طريز رسمي",    price:40000, colors:["#cfe0ff","#ffffff","#c89a2b"], img:"images/images (15).jpeg" },
 ];
+/* أنواع القماش */
 const FABRICS = [
   { id:"azbi",     name:"أزبي",      extra:0,    colors:["#e7f0fb","#ffffff","#bcd3ff"] },
   { id:"fasniger", name:"فسنيجر",    extra:3000, colors:["#dbe8ff","#ffffff","#a6b7d3"] },
@@ -135,6 +135,7 @@ const FABRICS = [
   { id:"sandasiya",name:"صاندسيه",   extra:6000, colors:["#dae6ff","#ffffff","#b5c7ea"] },
   { id:"osaka",    name:"اوزاكا",    extra:9000, colors:["#c8dcff","#ffffff","#a6b7d3"] },
 ];
+/* النقوش */
 const PATTERNS = [
   { id:"betiba",   name:"بتيبا",   extra:0    },
   { id:"khmini",   name:"الخميني", extra:1000 },
@@ -143,6 +144,7 @@ const PATTERNS = [
   { id:"muqaddam", name:"المقدم",  extra:4000 },
 ];
 const BASE_SEWING = 2000;
+
 let cart = [];
 const $ = q=>document.querySelector(q);
 const fmt = n=> (n||0).toLocaleString("ar-MR");
@@ -152,8 +154,13 @@ function renderProducts(){
   DESIGNS.forEach(d=>{
     const card = document.createElement("div"); card.className="card";
     const thumb = document.createElement("div"); thumb.className="thumb";
+    /* عرض الصورة كـ <img> لضمان عمل أسماء تحتوي مسافات وأقواس */
+    const img = document.createElement("img");
+    img.src = d.img; img.alt = d.title; thumb.appendChild(img);
+
     const title = document.createElement("div"); title.style.fontWeight="800"; title.textContent=d.title;
     const price = document.createElement("div"); price.className="price"; price.textContent = fmt(d.price) + " أوقية";
+
     const colors = document.createElement("div"); colors.className="row";
     d.colors.forEach(hex=>{
       const dot = document.createElement("div"); dot.className="color-dot"; dot.style.background=hex;
@@ -162,6 +169,7 @@ function renderProducts(){
     });
     colors.firstChild?.classList.add("active");
 
+    // القماش + النقش
     const fabricRow = document.createElement("div"); fabricRow.className="row";
     const selFabric = document.createElement("select");
     FABRICS.forEach(f=>{
@@ -189,12 +197,13 @@ function renderProducts(){
         designPrice: d.price,
         fabricId: f.id,   fabricName: f.name,   fabricExtra: f.extra,
         patternId: p.id,  patternName: p.name,  patternExtra: p.extra,
-        color
+        color, img: d.img
       });
       openDrawer();
       drawCart();
     };
     actions.append(add);
+
     card.append(thumb, title, price, colors, fabricRow, actions);
     g.append(card);
   });
@@ -210,8 +219,7 @@ function drawCart(){
   let total = 0;
   cart.forEach(item=>{
     const line = document.createElement("div"); line.className="cart-item";
-    const sw = document.createElement("div"); sw.style.width="34px"; sw.style.height="34px"; sw.style.borderRadius="10px";
-    sw.style.border = "1px solid var(--line)"; sw.style.background = item.color;
+    const sw = document.createElement("img"); sw.src=item.img; sw.alt=""; sw.style.width="54px"; sw.style.height="54px"; sw.style.objectFit="cover"; sw.style.borderRadius="8px"; sw.style.border="1px solid var(--line)";
     const info = document.createElement("div");
     info.innerHTML = `<div style="font-weight:700">${item.title}</div>
                       <div class="mini">${item.fabricName} (+${fmt(item.fabricExtra)}) • نقش: ${item.patternName} (+${fmt(item.patternExtra)})</div>`;
