@@ -14,18 +14,15 @@
        font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Arabic","Noto Naskh Arabic",sans-serif}
   a{color:inherit;text-decoration:none}
 
-  /* Header */
   .shell{max-width:1100px;margin:auto;padding:16px}
   header{background:#fff;border:1px solid var(--line);border-radius:20px;padding:10px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow)}
   .brand{display:flex;align-items:center;gap:10px}
   .mark{width:40px;height:40px;border-radius:12px;background: radial-gradient(circle at 30% 30%, #fbe8b4, var(--gold));
         border:2px solid var(--gold-700);box-shadow:inset 0 0 0 2px rgba(255,255,255,.4)}
   .nav{margin-inline-start:auto;display:flex;gap:10px;align-items:center}
-  .icon-btn{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer}
   .pill{padding:.55rem .9rem;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:600}
   .pill.gold{border-color:var(--gold);background:var(--gold);color:#fff}
 
-  /* Hero */
   .hero{margin-top:14px;border-radius:24px;background:
         radial-gradient(120% 140% at 100% 0%, rgba(200,154,43,.12), transparent 40%),
         radial-gradient(120% 140% at 0% 0%, rgba(13,59,102,.10), transparent 45%),
@@ -39,19 +36,14 @@
   .mock{border-radius:18px;min-height:200px;background:
         linear-gradient(160deg,#e7f0fb,#dbe9ff 60%, #fff 100%);
         border:1px dashed rgba(200,154,43,.4); position:relative}
-  .mock:before,.mock:after{content:"";position:absolute;top:18px;right:18px;border-radius:9px;background:var(--gold);box-shadow:inset 0 0 0 3px #f9e7b1}
-  .mock:before{width:18px;height:60px}
-  .mock:after{width:18px;height:38px;top:42px;right:40px}
 
-  /* Grid products */
   .section{margin-top:18px}
   .title{font-weight:800;color:var(--blue-ink);margin:0 0 10px 0}
   .grid{display:grid;gap:14px}
   @media(min-width:700px){ .grid{grid-template-columns: repeat(3, 1fr)} }
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:12px;display:flex;flex-direction:column;gap:10px}
   .thumb{border-radius:14px;aspect-ratio: 4/3;background:
-         linear-gradient(145deg,#d3e6ff,#e7f0fb);border:1px dashed rgba(200,154,43,.35);position:relative}
-  .thumb:before{content:"";position:absolute;inset:16px;border-radius:12px;border:2px dotted rgba(200,154,43,.55)}
+         linear-gradient(145deg,#d3e6ff,#e7f0fb);border:1px dashed rgba(200,154,43,.35)}
   .price{font-weight:800}
   .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .mini{font-size:12px;color:var(--muted)}
@@ -61,48 +53,37 @@
   .btn{padding:.6rem .9rem;border-radius:12px;border:1px solid var(--gold);background:var(--gold);color:#fff;font-weight:700;cursor:pointer}
   .btn.secondary{background:#fff;color:var(--ink);border-color:var(--line)}
 
-  /* Cart Drawer */
   .drawer{position:fixed;inset:0;display:none}
   .drawer.show{display:block}
   .shade{position:absolute;inset:0;background:rgba(0,0,0,.25)}
   .panel{position:absolute;inset-block:0;left:0;width:min(92vw,420px);background:#fff;border-right:1px solid var(--line);
          padding:16px;display:flex;flex-direction:column;gap:10px}
   .cart-item{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px}
-  .qty{display:flex;gap:6px;align-items:center}
-  .qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer}
   .hr{height:1px;background:var(--line);margin:8px 0}
   .total{display:flex;justify-content:space-between;font-weight:800}
   .paybox{display:grid;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fafcff}
-
-  /* Footer note */
-  .note{margin-top:22px;color:var(--muted);font-size:12px}
 </style>
 
 <body>
   <div class="shell">
-    <!-- Header -->
     <header>
       <div class="brand">
         <div class="mark"></div>
         <div>
           <div style="font-weight:800;color:var(--blue-ink)">متجر الدراعة</div>
-          <div class="mini">اختيار الطريز والقماش واللون ثم الدفع</div>
+          <div class="mini">اختيار الطريز والقماش والنقش ثم الدفع</div>
         </div>
       </div>
       <div class="nav">
         <button class="pill gold" id="openCart">سلة الشراء</button>
-        <div class="icon-btn" id="openSettings" title="إعدادات API">
-          ⚙️
-        </div>
       </div>
     </header>
 
-    <!-- Hero -->
     <section class="hero">
       <div class="row">
         <div>
-          <h1>دراعة موريتانية رجالية بتطريز أصيل</h1>
-          <p>ألوان واقعية (أزرق فاتح/أبيض) وخنط ذهبي، مع قماش بزّة خفيف أو فاخر.</p>
+          <h1>دراعة موريتانية رجالية</h1>
+          <p>ألوان واقعية وخنط ذهبي، مع أفضل أنواع الأقمشة.</p>
           <div class="swatch">
             <div class="dot" style="background:#e7f0fb"></div>
             <div class="dot" style="background:#ffffff"></div>
@@ -113,28 +94,16 @@
       </div>
     </section>
 
-    <!-- Products -->
     <section class="section">
       <h2 class="title">الطريزات المتوفرة</h2>
       <div id="grid" class="grid"></div>
     </section>
-
-    <div class="note">عند الإتمام، سنوجّهك لخطوة الدفع (Bankily / Sedad / Masrvi). مدة التسليم المتوقعة: يومان.</div>
   </div>
 
-  <!-- Drawer: Cart -->
   <div class="drawer" id="drawer">
     <div class="shade" id="closeDrawer"></div>
     <aside class="panel">
-      <div style="display:flex;align-items:center;gap:10px">
-        <div class="mark"></div>
-        <div>
-          <div style="font-weight:800">سلة الشراء</div>
-          <div class="mini">راجع اختيارك ثم ادفع</div>
-        </div>
-        <button class="pill" id="closeX" style="margin-inline-start:auto">إغلاق</button>
-      </div>
-
+      <button class="pill" id="closeX" style="margin-inline-start:auto">إغلاق</button>
       <div id="cartBox"></div>
       <div class="hr"></div>
       <div class="total"><div>الإجمالي</div><div id="totalTxt">0</div></div>
@@ -146,154 +115,143 @@
         <label><input type="radio" name="pay" value="masrvi"> Masrvi</label>
         <button class="btn" id="checkoutBtn">ادفع الآن</button>
         <div class="mini" id="status">الحالة: -</div>
-      </div>
-
-      <div class="hr"></div>
-      <div class="mini">
-        إعدادات الخادم:
-        <input id="base" type="text" style="width:100%;padding:.6rem;border:1px solid var(--line);border-radius:10px"
-               value="https://darraa-pay-backend.onrender.com">
+        <input id="base" type="text" style="width:100%" value="https://darraa-pay-backend.onrender.com">
       </div>
     </aside>
   </div>
 
-  <script>
-    // ----- بيانات المنتجات (تصاميم الدراعة) -----
-    const DESIGNS = [
-      { id:"dz1", title:"طريز صدر كلاسيكي", price:28000, colors:["#e7f0fb","#ffffff","#c89a2b"] },
-      { id:"dz2", title:"طريز حديث مطوّل",   price:32000, colors:["#d9e8ff","#ffffff","#c89a2b"] },
-      { id:"dz3", title:"طريز ثقيل ذهبي",    price:40000, colors:["#cfe0ff","#ffffff","#c89a2b"] },
-    ];
-    const FABRICS = [
-      { id:"fb1", name:"بزّة خفيفة", extra:0,    colors:["#e7f0fb","#ffffff","#bcd3ff"] },
-      { id:"fb2", name:"بزّة فاخرة", extra:8000, colors:["#cfe0ff","#ffffff","#a6b7d3"] },
-    ];
-    const BASE_SEWING = 2000;
+<script>
+const DESIGNS = [
+  { id:"dz1", title:"طريز صدر كلاسيكي", price:28000, colors:["#e7f0fb","#ffffff","#c89a2b"] },
+  { id:"dz2", title:"طريز حديث مطوّل",   price:32000, colors:["#d9e8ff","#ffffff","#c89a2b"] },
+  { id:"dz3", title:"طريز ثقيل ذهبي",    price:40000, colors:["#cfe0ff","#ffffff","#c89a2b"] },
+];
+const FABRICS = [
+  { id:"azbi",     name:"أزبي",      extra:0,    colors:["#e7f0fb","#ffffff","#bcd3ff"] },
+  { id:"fasniger", name:"فسنيجر",    extra:3000, colors:["#dbe8ff","#ffffff","#a6b7d3"] },
+  { id:"gaznir",   name:"جازنير",    extra:5000, colors:["#cfe0ff","#ffffff","#90b7ff"] },
+  { id:"jamani",   name:"جماني",     extra:7000, colors:["#cfe6ff","#ffffff","#9fb9ff"] },
+  { id:"shagah",   name:"الشگة",     extra:4000, colors:["#e3edff","#ffffff","#c9d6f3"] },
+  { id:"sandasiya",name:"صاندسيه",   extra:6000, colors:["#dae6ff","#ffffff","#b5c7ea"] },
+  { id:"osaka",    name:"اوزاكا",    extra:9000, colors:["#c8dcff","#ffffff","#a6b7d3"] },
+];
+const PATTERNS = [
+  { id:"betiba",   name:"بتيبا",   extra:0    },
+  { id:"khmini",   name:"الخميني", extra:1000 },
+  { id:"afir",     name:"افير",    extra:2000 },
+  { id:"dollar",   name:"الدولار", extra:3000 },
+  { id:"muqaddam", name:"المقدم",  extra:4000 },
+];
+const BASE_SEWING = 2000;
+let cart = [];
+const $ = q=>document.querySelector(q);
+const fmt = n=> (n||0).toLocaleString("ar-MR");
 
-    // ----- حالة السلة -----
-    let cart = []; // [{id, title, designPrice, fabricId, fabricName, fabricExtra, color}]
-    let selectedFabric = FABRICS[0];
+function renderProducts(){
+  const g = $("#grid"); g.innerHTML="";
+  DESIGNS.forEach(d=>{
+    const card = document.createElement("div"); card.className="card";
+    const thumb = document.createElement("div"); thumb.className="thumb";
+    const title = document.createElement("div"); title.style.fontWeight="800"; title.textContent=d.title;
+    const price = document.createElement("div"); price.className="price"; price.textContent = fmt(d.price) + " أوقية";
+    const colors = document.createElement("div"); colors.className="row";
+    d.colors.forEach(hex=>{
+      const dot = document.createElement("div"); dot.className="color-dot"; dot.style.background=hex;
+      dot.onclick = ()=>{ [...colors.children].forEach(c=>c.classList.remove("active")); dot.classList.add("active"); };
+      colors.appendChild(dot);
+    });
+    colors.firstChild?.classList.add("active");
 
-    // ----- أدوات -----
-    const $ = (q)=>document.querySelector(q);
-    const $$= (q)=>document.querySelectorAll(q);
-    const fmt = (n)=> (n||0).toLocaleString("ar-MR");
+    const fabricRow = document.createElement("div"); fabricRow.className="row";
+    const selFabric = document.createElement("select");
+    FABRICS.forEach(f=>{
+      const op = document.createElement("option");
+      op.value=f.id; op.textContent=`${f.name} (+${fmt(f.extra)})`;
+      selFabric.appendChild(op);
+    });
+    const selPattern = document.createElement("select");
+    PATTERNS.forEach(p=>{
+      const op = document.createElement("option");
+      op.value=p.id; op.textContent=`${p.name} (+${fmt(p.extra)})`;
+      selPattern.appendChild(op);
+    });
+    fabricRow.append("القماش:", selFabric, "النقش:", selPattern);
 
-    function renderProducts(){
-      const g = $("#grid"); g.innerHTML="";
-      DESIGNS.forEach(d=>{
-        const card = document.createElement("div"); card.className="card";
-        const thumb = document.createElement("div"); thumb.className="thumb";
-        const title = document.createElement("div"); title.style.fontWeight="800"; title.textContent=d.title;
-        const price = document.createElement("div"); price.className="price"; price.textContent = fmt(d.price) + " أوقية";
-        const colors = document.createElement("div"); colors.className="row";
-        d.colors.forEach(hex=>{
-          const dot = document.createElement("div"); dot.className="color-dot"; dot.style.background=hex;
-          dot.onclick = ()=>{ [...colors.children].forEach(c=>c.classList.remove("active")); dot.classList.add("active"); };
-          colors.appendChild(dot);
-        });
-        colors.firstChild?.classList.add("active");
-
-        // اختيار القماش من داخل البطاقة
-        const fabricRow = document.createElement("div"); fabricRow.className="row"; fabricRow.style.marginTop="-4px";
-        const sel = document.createElement("select");
-        FABRICS.forEach(f=>{
-          const op = document.createElement("option");
-          op.value=f.id; op.textContent=`${f.name} (+${fmt(f.extra)})`;
-          sel.appendChild(op);
-        });
-        sel.onchange = (e)=> {
-          const id = e.target.value; selectedFabric = FABRICS.find(x=>x.id===id) || FABRICS[0];
-        };
-        fabricRow.append("القماش:", sel);
-
-        const actions = document.createElement("div"); actions.className="buy";
-        const add = document.createElement("button"); add.className="btn"; add.textContent="أضف للسلة";
-        add.onclick = ()=>{
-          const color = [...colors.children].find(c=>c.classList.contains("active"))?.style.background || d.colors[0];
-          const f = selectedFabric || FABRICS[0];
-          cart.push({
-            id: d.id+"-"+Date.now(),
-            title: d.title,
-            designPrice: d.price,
-            fabricId: f.id, fabricName: f.name, fabricExtra: f.extra,
-            color
-          });
-          openDrawer();
-          drawCart();
-        };
-        const detail = document.createElement("button"); detail.className="btn secondary"; detail.textContent="تفاصيل";
-        detail.onclick = ()=>alert("تفاصيل مختصرة: قماش بزّة، خنط ذهبي، شميز/بولو تحت الدراعة. (يمكن إضافة صور لاحقًا)");
-        actions.append(add, detail);
-
-        card.append(thumb, title, price, colors, fabricRow, actions);
-        g.append(card);
+    const actions = document.createElement("div"); actions.className="buy";
+    const add = document.createElement("button"); add.className="btn"; add.textContent="أضف للسلة";
+    add.onclick = ()=>{
+      const color = [...colors.children].find(c=>c.classList.contains("active"))?.style.background || d.colors[0];
+      const f = FABRICS.find(x=>x.id === selFabric.value) || FABRICS[0];
+      const p = PATTERNS.find(x=>x.id === selPattern.value) || PATTERNS[0];
+      cart.push({
+        id: d.id+"-"+Date.now(),
+        title: d.title,
+        designPrice: d.price,
+        fabricId: f.id,   fabricName: f.name,   fabricExtra: f.extra,
+        patternId: p.id,  patternName: p.name,  patternExtra: p.extra,
+        color
       });
-    }
+      openDrawer();
+      drawCart();
+    };
+    actions.append(add);
+    card.append(thumb, title, price, colors, fabricRow, actions);
+    g.append(card);
+  });
+}
 
-    function openDrawer(){ $("#drawer").classList.add("show"); }
-    function closeDrawer(){ $("#drawer").classList.remove("show"); }
-    $("#openCart").onclick=openDrawer; $("#openSettings").onclick=openDrawer;
-    $("#closeDrawer").onclick=closeDrawer; $("#closeX").onclick=closeDrawer;
+function openDrawer(){ $("#drawer").classList.add("show"); }
+function closeDrawer(){ $("#drawer").classList.remove("show"); }
+$("#openCart").onclick=openDrawer; $("#closeDrawer").onclick=closeDrawer; $("#closeX").onclick=closeDrawer;
 
-    function drawCart(){
-      const box = $("#cartBox"); box.innerHTML="";
-      if(!cart.length){ box.innerHTML='<div class="mini">السلة فارغة.</div>'; $("#totalTxt").textContent="0"; return; }
-      let total = 0;
-      cart.forEach(item=>{
-        const line = document.createElement("div"); line.className="cart-item";
-        const sw = document.createElement("div"); sw.style.width="34px"; sw.style.height="34px"; sw.style.borderRadius="10px";
-        sw.style.border = "1px solid var(--line)"; sw.style.background = item.color;
-        const info = document.createElement("div");
-        info.innerHTML = `<div style="font-weight:700">${item.title}</div>
-                          <div class="mini">${item.fabricName} (+${fmt(item.fabricExtra)})</div>`;
-        const sum = item.designPrice + item.fabricExtra + BASE_SEWING; total += sum;
-        const price = document.createElement("div"); price.style.marginInlineStart="auto"; price.innerHTML = `<b>${fmt(sum)}</b>`;
-        const del = document.createElement("button"); del.className="pill"; del.textContent="حذف";
-        del.onclick = ()=>{ cart = cart.filter(x=>x.id!==item.id); drawCart(); };
-        line.append(sw, info, price, del);
-        box.append(line);
-      });
-      $("#totalTxt").textContent = fmt(total) + " أوقية";
-    }
+function drawCart(){
+  const box = $("#cartBox"); box.innerHTML="";
+  if(!cart.length){ box.innerHTML='<div class="mini">السلة فارغة.</div>'; $("#totalTxt").textContent="0"; return; }
+  let total = 0;
+  cart.forEach(item=>{
+    const line = document.createElement("div"); line.className="cart-item";
+    const sw = document.createElement("div"); sw.style.width="34px"; sw.style.height="34px"; sw.style.borderRadius="10px";
+    sw.style.border = "1px solid var(--line)"; sw.style.background = item.color;
+    const info = document.createElement("div");
+    info.innerHTML = `<div style="font-weight:700">${item.title}</div>
+                      <div class="mini">${item.fabricName} (+${fmt(item.fabricExtra)}) • نقش: ${item.patternName} (+${fmt(item.patternExtra)})</div>`;
+    const sum = item.designPrice + item.fabricExtra + item.patternExtra + BASE_SEWING; total += sum;
+    const price = document.createElement("div"); price.style.marginInlineStart="auto"; price.innerHTML = `<b>${fmt(sum)}</b>`;
+    const del = document.createElement("button"); del.className="pill"; del.textContent="حذف";
+    del.onclick = ()=>{ cart = cart.filter(x=>x.id!==item.id); drawCart(); };
+    line.append(sw, info, price, del);
+    box.append(line);
+  });
+  $("#totalTxt").textContent = fmt(total) + " أوقية";
+}
 
-    // ----- الدفع -----
-    async function checkout(){
-      if(!cart.length) return alert("السلة فارغة");
-      const provider = document.querySelector('input[name="pay"]:checked').value;
-      const BASE = $("#base").value.trim();
-      // إجمالي بسيط
-      const total = cart.reduce((s,i)=> s + i.designPrice + i.fabricExtra + BASE_SEWING, 0);
-      const meta = {
-        customer:{ name:"", phone:"" }, // ممكن نضيف نموذج بسيط لاحقًا
-        items: cart
-      };
+async function checkout(){
+  if(!cart.length) return alert("السلة فارغة");
+  const provider = document.querySelector('input[name="pay"]:checked').value;
+  const BASE = $("#base").value.trim();
+  const total = cart.reduce((s,i)=> s + i.designPrice + i.fabricExtra + i.patternExtra + BASE_SEWING, 0);
+  const meta = { items: cart };
 
-      $("#status").textContent = "الحالة: جاري إنشاء عملية الدفع…";
-      try{
-        const r = await fetch(BASE + "/payments/create",{
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
-          body: JSON.stringify({ orderId:null, amountMRU: total, provider, meta })
-        });
-        const data = await r.json();
-        if(!data?.paymentId){ throw new Error("تعذر الإنشاء"); }
-        $("#status").textContent = "الحالة: تم الإنشاء. المعرّف: "+data.paymentId+" | المرجع: "+data.merchantRef;
+  $("#status").textContent = "الحالة: جاري إنشاء عملية الدفع…";
+  try{
+    const r = await fetch(BASE + "/payments/create",{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ orderId:null, amountMRU: total, provider, meta })
+    });
+    const data = await r.json();
+    if(!data?.paymentId) throw new Error("تعذر الإنشاء");
+    $("#status").textContent = "تم الإنشاء. المرجع: "+data.merchantRef;
+    alert("افتح تطبيق "+provider+" وأكمل الدفع بالمرجع: "+data.merchantRef);
+  }catch(e){
+    $("#status").textContent = "فشل الإنشاء";
+    alert("خطأ في إنشاء الدفع");
+  }
+}
+$("#checkoutBtn").onclick = checkout;
 
-        // (اختياري) توجيهات الدفع حسب المزود
-        if(provider==="bankily") alert("ادخل إلى Bankily أو اتصل بـ *888# وأدخل المرجع: "+data.merchantRef);
-        else alert("افتح تطبيق "+provider.toUpperCase()+" وأكمل عملية الدفع بالمرجع: "+data.merchantRef);
-
-      }catch(e){
-        $("#status").textContent = "الحالة: فشل الإنشاء";
-        alert("حدث خطأ في إنشاء الدفع");
-      }
-    }
-    $("#checkoutBtn").onclick = checkout;
-
-    // تشغيل أولي
-    renderProducts();
-    drawCart();
-  </script>
+renderProducts();
+drawCart();
+</script>
 </body>
 </html>
