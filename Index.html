@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>طلب الدراعة – تجربة دفع</title>
+<style>
+  body{font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", sans-serif; background:#f8fafc; color:#0f172a; margin:0}
+  .wrap{max-width:680px;margin:24px auto;padding:16px}
+  .card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin-bottom:12px}
+  .btn{padding:.6rem 1rem;border-radius:10px;border:1px solid #059669;background:#059669;color:#fff}
+  .btn.secondary{background:#fff;color:#0f172a;border-color:#cbd5e1}
+  .muted{color:#64748b}
+  code{background:#f1f5f9;border:1px solid #e2e8f0;padding:2px 6px;border-radius:6px}
+</style>
+<body>
+<div class="wrap">
+  <h1>طلب الدراعة – تجربة الدفع</h1>
+  <p class="muted">اختر مزوّد الدفع، أنشئ عملية دفع، ثم حاكي النجاح أو افحص الحالة.</p>
+
+  <div class="card">
+    <label>رابط الباكند (Render)</label><br>
+    <input id="base" style="width:100%;padding:.6rem;border:1px solid #cbd5e1;border-radius:10px"
+           value="https://darraa-pay-backend.onrender.com">
+  </div>
+
+  <div class="card">
+    <h3>1) اختيار المزوّد</h3>
+    <select id="provider" style="padding:.6rem;border:1px solid #cbd5e1;border-radius:10px">
+      <option value="bankily">Bankily</option>
+      <option value="sedad">Sedad</option>
+      <option value="masrvi">Masrvi</option>
+    </select>
+    <button class="btn" onclick="createPayment()">ادفع الآن</button>
+  </div>
+
+  <div class="card">
+    <h3>2) معلومات العملية</h3>
+    <div>paymentId: <code id="pid">-</code></div>
+    <div>merchantRef: <code id="mref">-</code></div>
+  </div>
+
+  <div class="card">
+    <h3>3) التحقق/المحاكاة</h3>
+    <button class="btn" onclick="checkStatus()">تحقق من الحالة</button>
+    <button class="btn secondary" onclick="simulate('success')">محاكاة نجاح</button>
+    <button class="btn secondary" onclick="simulate('failed')">محاكاة فشل</button>
+    <div class="muted" id="status" style="margin-top:8px">الحالة: -</div>
+  </div>
+
+  <div class="card">
+    <h3>السجل</h3>
+    <pre id="log" style="white-space:pre-wrap"></pre>
+  </div>
+</div>
+
+<script>
+  let paymentId=null, merchantRef=null;
+
+  function log(msg){ document.getElementById('log').textContent += msg + "\n"; }
+
+  async function createPayment(){
+    const BASE_URL = document.getElementById('base').value.trim();
+    const provider = document.getElementById('provider').value;
+    log("POST /payments/create ...");
+    const r = await fetch(BASE_URL + "/payments/create", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ orderId:460003, amountMRU:46000, provider })
+    });
+    const data = await r.json(); log(JSON.stringify(data, null, 2));
+    paymentId = data.paymentId; merchantRef = data.merchantRef;
+    document.getElementById('pid').textContent = paymentId ?? "-";
+    document.getElementById('mref').textContent = merchantRef ?? "-";
+  }
+
+  async function checkStatus(){
+    if(!paymentId) return alert("أنشئ عملية أولاً");
+    const BASE_URL = document.getElementById('base').value.trim();
+    log("GET /payments/"+paymentId+"/status ...");
+    const r = await fetch(BASE_URL + "/payments/" + paymentId + "/status");
+    const data = await r.json(); log(JSON.stringify(data, null, 2));
+    document.getElementById('status').textContent = "الحالة: " + (data.status || "-");
+  }
+
+  async function simulate(status){
+    if(!merchantRef) return alert("أنشئ عملية أولاً");
+    const BASE_URL = document.getElementById('base').value.trim();
+    log("POST /simulate/webhook ...");
+    const r = await fetch(BASE_URL + "/simulate/webhook", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ secret:"letmein", provider:document.getElementById('provider').value, merchantRef, status })
+    });
+    const data = await r.json(); log(JSON.stringify(data, null, 2));
+    await checkStatus();
+  }
+</script>
+</body>
+  </html>
