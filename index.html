@@ -3,313 +3,320 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>الدراعة | تسجيل الدخول والمنتجات</title>
+<title>الدراعة | متجر</title>
 <style>
   :root{
-    /* ألوان الهوية (أخضر موريتاني + ذهبي) */
     --green:#0d5c51; --green-900:#0a4740; --gold:#c89a2b; --gold-700:#a67e1f;
     --bg:#f6f7f4; --card:#ffffff; --ink:#0f172a; --muted:#64748b; --line:#e5e7eb;
-    --blue:#e7f0fb; --blue-ink:#0d3b66; --shadow:0 12px 30px rgba(0,0,0,.06);
-    --r:18px;
+    --shadow:0 12px 30px rgba(0,0,0,.06); --r:18px;
   }
-  *{box-sizing:border-box} body{margin:0;font-family:system-ui,"Noto Sans Arabic",sans-serif;background:var(--bg);color:var(--ink)}
-  a{text-decoration:none;color:inherit}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Arabic","Noto Kufi Arabic",sans-serif}
 
-  /* شريط علوي */
-  .topbar{background:var(--green);color:#fff;box-shadow:var(--shadow)}
-  .topbar .wrap{max-width:1120px;margin:auto;padding:14px 16px;display:flex;align-items:center;gap:12px}
-  .logo{display:flex;align-items:center;gap:10px}
-  .logo-badge{width:40px;height:40px;border-radius:12px;background:radial-gradient(circle at 30% 30%,#fbe8b4,var(--gold));border:2px solid var(--gold-700)}
-  .grow{flex:1}
-  .pill{padding:.6rem .9rem;border:1px solid #ffffff30;border-radius:999px;background:#ffffff20;color:#fff;cursor:pointer}
-  .pill.white{background:#fff;color:var(--green);border-color:#fff}
-  .hidden{display:none}
+  /* SPLASH */
+  #splash{position:fixed;inset:0;display:grid;place-items:center;background:var(--green);color:#fff;z-index:50}
+  .brand-mark{width:70px;height:70px;border-radius:22px;
+    background:radial-gradient(circle at 30% 30%,#fbe8b4,var(--gold));border:3px solid #fff}
+  .fade{animation:fade 1s ease forwards} @keyframes fade{to{opacity:0;visibility:hidden}}
 
-  /* شاشة الدخول */
-  .login{min-height:100svh;display:grid;place-items:center;background:linear-gradient(180deg,var(--green) 0%, var(--green-900) 100%)}
-  .login-card{width:min(92vw,460px);background:#fff;border-radius:24px;padding:22px;border:1px solid var(--line);box-shadow:var(--shadow)}
-  .login-title{font-size:26px;color:var(--green);font-weight:800;margin:0 0 10px}
+  /* AUTH */
+  .auth{min-height:100svh;display:grid;place-items:center;padding:20px}
+  .card{width:min(92vw,460px);background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:22px}
+  .logo{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+  .title{font-size:24px;color:var(--green);font-weight:800;margin:0 0 10px}
+  .row{display:flex;gap:10px;align-items:center}
   .field{display:grid;gap:6px;margin:10px 0}
-  .field label{color:var(--muted);font-size:14px}
-  .input{padding:.8rem .9rem;border:1px solid var(--line);border-radius:12px;background:#fff}
-  .btn{padding:.8rem 1rem;border-radius:12px;border:1px solid var(--gold);background:var(--gold);color:#fff;font-weight:800;cursor:pointer}
-  .btn.secondary{background:#fff;color:var(--ink);border-color:var(--line)}
-  .hint{color:var(--muted);font-size:12px;margin-top:6px}
+  label{color:var(--muted);font-size:13px}
+  .input, select, textarea{padding:.8rem .9rem;border:1px solid var(--line);border-radius:12px;background:#fff;width:100%}
+  .btn{padding:.9rem 1rem;border-radius:12px;border:1px solid var(--gold);background:var(--gold);color:#fff;font-weight:800;cursor:pointer}
+  .btn.ghost{background:#fff;color:var(--ink);border-color:var(--line)}
+  .hint{color:var(--muted);font-size:12px;margin-top:6px;text-align:center}
 
-  /* صفحة المتجر */
+  /* APP HEADER */
+  .topbar{position:sticky;top:0;background:var(--green);color:#fff;z-index:10}
+  .topbar .wrap{max-width:1120px;margin:auto;padding:12px 16px;display:flex;align-items:center;gap:10px}
+  .icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid #ffffff30;background:#ffffff20;display:grid;place-items:center;cursor:pointer}
+  .grow{flex:1}
+
+  /* HOME */
   .shell{max-width:1120px;margin:auto;padding:16px}
-  .hero{margin-top:14px;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
-  .hero-in{display:grid;gap:16px;padding:18px}
-  @media(min-width:900px){.hero-in{grid-template-columns:1.1fr .9fr}}
-  .banner{background:linear-gradient(135deg,var(--green) 0%, #156e62 50%, #1e8577 100%);color:#fff;border-radius:16px;padding:14px}
-  .banner h1{margin:0 0 6px 0;font-size:22px}
-  .grid{display:grid;gap:14px;margin-top:16px}
-  @media(min-width:740px){.grid{grid-template-columns:repeat(3,1fr)}}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:12px;display:flex;flex-direction:column;gap:10px}
-  .thumb{border-radius:14px;aspect-ratio:4/3;overflow:hidden;border:1px solid var(--line)}
-  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-  .title{font-weight:800}
-  .mini{font-size:12px;color:var(--muted)}
-  .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-  select{padding:.5rem;border:1px solid var(--line);border-radius:10px;background:#fff}
-  .color-dot{width:20px;height:20px;border-radius:999px;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.2);cursor:pointer}
-  .color-dot.active{box-shadow:0 0 0 2px var(--gold)}
-  .buy{display:flex;gap:8px;margin-top:auto}
+  .hello{font-weight:800;margin:10px 0}
+  .banner{border-radius:18px;padding:14px;background:linear-gradient(135deg,#ffedc2,#ffd77a);display:grid;grid-template-columns:1fr 110px;gap:10px;align-items:center;border:1px solid #f1c56a}
+  .banner h3{margin:0 0 6px 0}
+  .banner img{width:100%;height:100%;object-fit:cover;border-radius:14px;border:2px solid #f6e2a3}
 
-  /* السلة الجانبية */
-  .drawer{position:fixed;inset:0;display:none}
-  .drawer.show{display:block}
-  .shade{position:absolute;inset:0;background:rgba(0,0,0,.25)}
-  .panel{position:absolute;inset-block:0;left:0;width:min(92vw,420px);background:#fff;border-right:1px solid var(--line);
-    padding:16px;display:flex;flex-direction:column;gap:10px}
-  .cart-item{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px}
-  .hr{height:1px;background:var(--line);margin:8px 0}
-  .total{display:flex;justify-content:space-between;font-weight:800}
-  .paybox{display:grid;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fafcff}
+  .grid2{display:grid;gap:10px;margin-top:14px}
+  @media(min-width:700px){ .grid2{grid-template-columns:repeat(2,1fr)} }
+  .opt-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;gap:8px}
+  .opt-card h4{margin:0;font-size:15px;color:var(--green)}
+  .chip{display:inline-block;padding:.35rem .6rem;border:1px solid var(--line);border-radius:999px;background:#fff;margin:3px 4px 0 0;cursor:pointer}
+  .chip.active{border-color:var(--gold);box-shadow:0 0 0 2px #f7e3aa inset}
+
+  .sec-title{margin:16px 0 8px;color:var(--green);font-weight:800}
+
+  .grid{display:grid;gap:14px}
+  @media(min-width:740px){.grid{grid-template-columns:repeat(3,1fr)}}
+  .product{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+  .thumb{aspect-ratio:4/3;overflow:hidden}
+  .thumb img{width:100%;height:100%;object-fit:cover}
+  .meta{padding:10px;display:grid;gap:6px}
+  .price{color:var(--gold);font-weight:800}
+  .actions{display:flex;gap:8px;margin-top:6px}
+  .pill{padding:.55rem .9rem;border:1px solid var(--line);border-radius:999px;background:#fff;cursor:pointer}
+
+  /* BOTTOM NAV */
+  .bottom{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line)}
+  .tabs{max-width:1120px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px}
+  .tab{border:1px solid var(--line);border-radius:12px;padding:.6rem;text-align:center;cursor:pointer}
+  .tab.active{border-color:var(--green);box-shadow:0 0 0 2px #cfe8e4 inset;color:var(--green)}
+
+  /* HIDE/SHOW */
+  .hidden{display:none}
 </style>
 </head>
-
 <body>
-  <!-- شاشة الدخول -->
-  <div id="login" class="login">
-    <div class="login-card">
-      <div class="logo" style="margin-bottom:10px">
-        <div class="logo-badge"></div>
-        <div style="font-weight:800;color:var(--green)">الدراعة</div>
-      </div>
-      <h2 class="login-title">تسجيل الدخول</h2>
-      <div class="field">
-        <label>رقم الهاتف</label>
-        <input id="phone" class="input" placeholder="مثال: 22 33 44 55">
-      </div>
-      <div class="field">
-        <label>كلمة المرور</label>
-        <input id="pass" class="input" type="password" placeholder="••••••••">
-      </div>
-      <button id="doLogin" class="btn" style="width:100%;margin-top:8px">سجّل الدخول</button>
-      <div class="hint">للاختبار اكتب أي رقم وكلمة مرور (تسجيل دخـول محلي بسيط).</div>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div style="text-align:center">
+    <div class="brand-mark" style="margin:auto"></div>
+    <div style="margin-top:10px;font-weight:800">الدراعة</div>
+  </div>
+</div>
+
+<!-- AUTH -->
+<section id="auth" class="auth hidden">
+  <div class="card">
+    <div class="logo"><div class="brand-mark" style="width:40px;height:40px;border:2px solid #fff"></div><b style="color:var(--green)">الدراعة</b></div>
+    <div class="row" style="gap:8px;margin-bottom:10px">
+      <button id="tabLogin" class="pill" style="border-color:var(--gold);color:var(--gold)">تسجيل الدخول</button>
+      <button id="tabSignup" class="pill">إنشاء حساب</button>
+    </div>
+
+    <div id="loginBox">
+      <h3 class="title">تسجيل الدخول</h3>
+      <div class="field"><label>رقم الهاتف</label><input id="loginPhone" class="input" placeholder="22 33 44 55"></div>
+      <div class="field"><label>كلمة المرور</label><input id="loginPass" type="password" class="input" placeholder="••••••••"></div>
+      <button id="doLogin" class="btn" style="width:100%;margin-top:6px">دخول</button>
+      <div class="hint">نسخة اختبار: أي بيانات تعمل، سنضيف OTP لاحقًا.</div>
+    </div>
+
+    <div id="signupBox" class="hidden">
+      <h3 class="title">إنشاء حساب</h3>
+      <div class="field"><label>الاسم</label><input id="nameNew" class="input" placeholder="اسم المستخدم"></div>
+      <div class="field"><label>رقم الهاتف</label><input id="phoneNew" class="input" placeholder="22 33 44 55"></div>
+      <div class="field"><label>كلمة المرور</label><input id="passNew" type="password" class="input" placeholder="••••••••"></div>
+      <button id="doSignup" class="btn" style="width:100%;margin-top:6px">إنشاء وتسجيل الدخول</button>
+      <div class="hint">سيتم إضافة توثيق برمز (OTP) لاحقًا.</div>
+    </div>
+  </div>
+</section>
+
+<!-- APP -->
+<section id="app" class="hidden">
+  <!-- HEADER -->
+  <div class="topbar">
+    <div class="wrap">
+      <div class="icon-btn" title="حسابي" id="btnAccount">👤</div>
+      <div class="grow"></div>
+      <div class="icon-btn" title="القائمة" id="btnMenu">≡</div>
     </div>
   </div>
 
-  <!-- صفحة المتجر -->
-  <div id="app" class="hidden">
-    <div class="topbar">
-      <div class="wrap">
-        <div class="logo">
-          <div class="logo-badge"></div>
-          <div style="font-weight:800">الدراعة</div>
+  <!-- CONTENT -->
+  <div class="shell">
+    <div id="hello" class="hello">مرحبًا بك، ضيف</div>
+
+    <!-- BANNER -->
+    <div class="banner">
+      <div>
+        <h3>اطلب الآن واستلم خلال يومين</h3>
+        <div class="mini">خياطة راقية وخنط أصيل — اختياراتك تصل لباب منزلك.</div>
+      </div>
+      <!-- استخدمنا إحدى صورك الحالية -->
+      <img src="images (15).jpeg" alt="دعاية">
+    </div>
+
+    <!-- اختيارات أساسية -->
+    <div class="grid2">
+      <div class="opt-card">
+        <h4>الخنط (الطريز)</h4>
+        <select id="selKhnt">
+          <option>كلاسيكي</option><option>حديث</option><option>ثقيل ذهبي</option>
+        </select>
+      </div>
+      <div class="opt-card">
+        <h4>الدسيه</h4>
+        <select id="selDasiya">
+          <option>مخففة</option><option>متوسطة</option><option>ثقيلة</option>
+        </select>
+      </div>
+      <div class="opt-card">
+        <h4>نوع/لون السلك</h4>
+        <select id="selSilkType">
+          <option>سلك ذهبي لامع</option><option>سلك فضي</option><option>سلك أبيض مطفي</option>
+        </select>
+        <div class="row">
+          <span class="chip active" data-color="#c89a2b">ذهبي</span>
+          <span class="chip" data-color="#b0b7c3">فضي</span>
+          <span class="chip" data-color="#ffffff">أبيض</span>
         </div>
-        <div class="grow"></div>
-        <div id="userName" class="mini" style="margin-inline-end:8px"></div>
-        <button id="openCart" class="pill">سلة الشراء</button>
-        <button id="logout" class="pill white">خروج</button>
       </div>
-    </div>
-
-    <div class="shell">
-      <div class="hero">
-        <div class="hero-in">
-          <div class="banner">
-            <h1>أطلب الآن واستلم خلال يومين</h1>
-            <div class="mini">اختر الطريز والقماش والنقش واللون. الدفع عبر Bankily أو Sedad أو Masrvi.</div>
-          </div>
-          <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px">
-            <div class="mini">عروض خاصة</div>
-            <div style="display:flex;gap:10px;margin-top:8px">
-              <div style="flex:1;height:80px;border-radius:12px;background:linear-gradient(135deg,#fff7e1,#ffe6a3)"></div>
-              <div style="flex:1;height:80px;border-radius:12px;background:linear-gradient(135deg,#e7f0fb,#d9e8ff)"></div>
-            </div>
-          </div>
+      <div class="opt-card">
+        <h4>اللون الأساسي</h4>
+        <div class="row">
+          <span class="chip active" data-base="#e7f0fb">أزرق فاتح</span>
+          <span class="chip" data-base="#ffffff">أبيض</span>
+          <span class="chip" data-base="#eaeef7">أزرق ثلجي</span>
         </div>
       </div>
+      <div class="opt-card">
+        <h4>الطول</h4>
+        <div class="row">
+          <span class="chip active" data-length="8">8 أمتار (طبيعي)</span>
+          <span class="chip" data-length="10">10 أمتار (طويل)</span>
+        </div>
+      </div>
+    </div>
 
-      <h3 style="margin:16px 0 8px;color:var(--blue-ink)">اختيار الطريز</h3>
-      <div id="grid" class="grid"></div>
+    <!-- عروض خاصة -->
+    <h3 class="sec-title">عروض خاصة</h3>
+    <div class="grid" id="offers"></div>
+
+    <!-- منتجات متاحة الآن -->
+    <h3 class="sec-title">متاح الآن</h3>
+    <div class="grid" id="catalog"></div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom">
+    <div class="tabs">
+      <div class="tab" id="tabCart">🛒 السلة</div>
+      <div class="tab" id="tabFav">⭐ أعجبتني</div>
+      <div class="tab active" id="tabHome">🏠 الرئيسية</div>
+      <div class="tab" id="tabMsg">💬 راسلنا</div>
     </div>
   </div>
-
-  <!-- Drawer: Cart -->
-  <div class="drawer" id="drawer">
-    <div class="shade" id="closeDrawer"></div>
-    <aside class="panel">
-      <div style="display:flex;align-items:center;gap:8px">
-        <div class="logo-badge"></div>
-        <div style="font-weight:800">سلة الشراء</div>
-        <button class="pill" id="closeX" style="margin-inline-start:auto">إغلاق</button>
-      </div>
-      <div id="cartBox"></div>
-      <div class="hr"></div>
-      <div class="total"><div>الإجمالي</div><div id="totalTxt">0</div></div>
-      <div class="paybox">
-        <div class="mini">اختر وسيلة الدفع:</div>
-        <label><input type="radio" name="pay" value="bankily" checked> Bankily</label>
-        <label><input type="radio" name="pay" value="sedad"> Sedad</label>
-        <label><input type="radio" name="pay" value="masrvi"> Masrvi</label>
-        <button class="btn" id="checkoutBtn">ادفع الآن</button>
-        <div class="mini" id="status">الحالة: -</div>
-        <input id="base" class="input" value="https://darraa-pay-backend.onrender.com" />
-        <button class="btn secondary" id="pingBtn">فحص الاتصال</button>
-      </div>
-    </aside>
-  </div>
+</section>
 
 <script>
-/* ========== تسجيل الدخول المبسّط ========== */
-const loginView = document.getElementById('login');
-const appView   = document.getElementById('app');
-const phoneEl   = document.getElementById('phone');
-const passEl    = document.getElementById('pass');
-const userName  = document.getElementById('userName');
+/* ========== SPLASH → AUTH ========= */
+setTimeout(()=>{ document.getElementById('splash').classList.add('fade'); document.getElementById('auth').classList.remove('hidden'); }, 1200);
 
-document.getElementById('doLogin').onclick = ()=>{
-  const phone = phoneEl.value.trim();
-  const pass  = passEl.value.trim();
-  if(!phone || !pass){ alert('أدخل الهاتف وكلمة المرور'); return; }
-  localStorage.setItem('user', JSON.stringify({ phone }));
-  userName.textContent = "مرحبًا، " + phone;
-  loginView.classList.add('hidden');
-  appView.classList.remove('hidden');
-};
-document.getElementById('logout').onclick = ()=>{
-  localStorage.removeItem('user'); location.reload();
-};
-// استعادة جلسة موجودة
-(()=>{ const u = localStorage.getItem('user'); if(u){ userName.textContent = "مرحبًا، " + JSON.parse(u).phone; loginView.classList.add('hidden'); appView.classList.remove('hidden'); }})();
-
-/* ========== بيانات المنتجات ========== */
-/* أسماء صورك كما رفعتها (في جذر المستودع). الكود يحاول أيضًا داخل مجلد images/ تلقائيًا */
-const IMAGE_FILES = ["images (1) (1).jpeg","images (14).jpeg","images (15).jpeg"];
-
-const DESIGNS = [
-  { id:"dz1", title:"طريز كلاسيكي", price:28000, colors:["#e7f0fb","#ffffff","#c89a2b"], img: IMAGE_FILES[0] },
-  { id:"dz2", title:"طريز عصري",    price:32000, colors:["#d9e8ff","#ffffff","#c89a2b"], img: IMAGE_FILES[1] },
-  { id:"dz3", title:"طريز رسمي",    price:40000, colors:["#cfe0ff","#ffffff","#c89a2b"], img: IMAGE_FILES[2] },
-];
-
-const FABRICS = [
-  { id:"azbi",     name:"أزبي",      extra:0 },
-  { id:"fasniger", name:"فسنيجر",    extra:3000 },
-  { id:"gaznir",   name:"جازنير",    extra:5000 },
-  { id:"jamani",   name:"جماني",     extra:7000 },
-  { id:"shagah",   name:"الشگة",     extra:4000 },
-  { id:"sandasiya",name:"صاندسيه",   extra:6000 },
-  { id:"osaka",    name:"اوزاكا",    extra:9000 },
-];
-
-const PATTERNS = [
-  { id:"betiba",   name:"بتيبا",   extra:0    },
-  { id:"khmini",   name:"الخميني", extra:1000 },
-  { id:"afir",     name:"افير",    extra:2000 },
-  { id:"dollar",   name:"الدولار", extra:3000 },
-  { id:"muqaddam", name:"المقدم",  extra:4000 },
-];
-
-const BASE_SEWING = 2000;
-
-let cart = [];
-const $  = q=>document.querySelector(q);
-const fmt = n=> (n||0).toLocaleString("ar-MR");
-
-function attachImage(imgEl, filename){
-  imgEl.src = filename;
-  imgEl.onerror = ()=> imgEl.src = "images/" + filename;
-}
-
-/* ========== عرض المنتجات ========== */
-function renderProducts(){
-  const g = $("#grid"); g.innerHTML="";
-  DESIGNS.forEach(d=>{
-    const card = document.createElement("div"); card.className="card";
-    const thumb = document.createElement("div"); thumb.className="thumb";
-    const img = document.createElement("img"); attachImage(img, d.img); img.alt=d.title; thumb.appendChild(img);
-    const title = document.createElement("div"); title.className="title"; title.textContent=d.title;
-    const price = document.createElement("div"); price.style.color="var(--gold)"; price.style.fontWeight="800"; price.textContent = fmt(d.price)+" أوقية";
-
-    const colors = document.createElement("div"); colors.className="row";
-    d.colors.forEach(hex=>{
-      const dot = document.createElement("div"); dot.className="color-dot"; dot.style.background=hex;
-      dot.onclick = ()=>{ [...colors.children].forEach(c=>c.classList.remove("active")); dot.classList.add("active"); };
-      colors.appendChild(dot);
-    });
-    colors.firstChild?.classList.add("active");
-
-    const fabricRow = document.createElement("div"); fabricRow.className="row";
-    const selFabric = document.createElement("select");
-    FABRICS.forEach(f=>{ const op=document.createElement("option"); op.value=f.id; op.textContent=`${f.name} (+${fmt(f.extra)})`; selFabric.appendChild(op); });
-    const selPattern = document.createElement("select");
-    PATTERNS.forEach(p=>{ const op=document.createElement("option"); op.value=p.id; op.textContent=`${p.name} (+${fmt(p.extra)})`; selPattern.appendChild(op); });
-    fabricRow.append("القماش:", selFabric, "النقش:", selPattern);
-
-    const add = document.createElement("button"); add.className="btn"; add.textContent="أضف للسلة";
-    add.onclick = ()=>{
-      const color = [...colors.children].find(c=>c.classList.contains("active"))?.style.background || d.colors[0];
-      const f = FABRICS.find(x=>x.id===selFabric.value) || FABRICS[0];
-      const p = PATTERNS.find(x=>x.id===selPattern.value) || PATTERNS[0];
-      cart.push({ id:d.id+"-"+Date.now(), title:d.title, img:d.img, color,
-        designPrice:d.price, fabricId:f.id, fabricName:f.name, fabricExtra:f.extra,
-        patternId:p.id, patternName:p.name, patternExtra:p.extra });
-      openDrawer(); drawCart();
-    };
-
-    card.append(thumb,title,price,colors,fabricRow,add);
-    g.append(card);
-  });
-}
-
-/* ========== السلة ========== */
-function openDrawer(){ $("#drawer").classList.add("show"); }
-function closeDrawer(){ $("#drawer").classList.remove("show"); }
-$("#openCart").onclick=openDrawer; $("#closeDrawer").onclick=closeDrawer; $("#closeX").onclick=closeDrawer;
-
-function drawCart(){
-  const box=$("#cartBox"); box.innerHTML="";
-  if(!cart.length){ box.innerHTML='<div class="mini">السلة فارغة.</div>'; $("#totalTxt").textContent="0"; return; }
-  let total=0;
-  cart.forEach(it=>{
-    const line=document.createElement("div"); line.className="cart-item";
-    const im=document.createElement("img"); attachImage(im,it.img); im.style.width="54px";im.style.height="54px";im.style.objectFit="cover";im.style.borderRadius="8px";im.style.border="1px solid var(--line)";
-    const info=document.createElement("div"); info.innerHTML=`<div style="font-weight:700">${it.title}</div>
-      <div class="mini">${it.fabricName} (+${fmt(it.fabricExtra)}) • نقش: ${it.patternName} (+${fmt(it.patternExtra)})</div>`;
-    const sum=it.designPrice+it.fabricExtra+it.patternExtra+BASE_SEWING; total+=sum;
-    const price=document.createElement("div"); price.style.marginInlineStart="auto"; price.innerHTML="<b>"+fmt(sum)+"</b>";
-    const del=document.createElement("button"); del.className="pill"; del.textContent="حذف"; del.onclick=()=>{cart=cart.filter(x=>x.id!==it.id);drawCart();};
-    line.append(im,info,price,del); box.append(line);
-  });
-  $("#totalTxt").textContent=fmt(total)+" أوقية";
-}
-
-/* ========== دفع وربط باكند ========== */
-async function checkout(){
-  if(!cart.length) return alert("السلة فارغة");
-  const provider=document.querySelector('input[name="pay"]:checked').value;
-  const BASE=$("#base").value.trim().replace(/\/+$/,'');
-  const url=BASE+"/payments/create";
-  const total=cart.reduce((s,i)=> s+i.designPrice+i.fabricExtra+i.patternExtra+BASE_SEWING,0);
-  const meta={ items: cart, user: JSON.parse(localStorage.getItem('user')||'{}') };
-
-  $("#status").textContent="إنشاء الدفع…";
-  try{
-    const r=await fetch(url,{ method:"POST", headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ orderId:null, amountMRU: total, provider, meta }) });
-    const text=await r.text();
-    if(!r.ok){ $("#status").textContent="فشل ("+r.status+"): "+text.slice(0,120); alert("خطأ من الخادم: "+text); return; }
-    const data=JSON.parse(text);
-    $("#status").textContent="تم الإنشاء. المرجع: "+data.merchantRef;
-    alert("استخدم المرجع في تطبيق "+provider.toUpperCase()+": "+data.merchantRef);
-  }catch(e){ $("#status").textContent="تعذر الاتصال: "+e.message; alert("تعذر الاتصال بالباكند: "+e.message); }
-}
-document.getElementById('checkoutBtn').onclick=checkout;
-
-document.getElementById('pingBtn').onclick = async ()=>{
-  const BASE=$("#base").value.trim().replace(/\/+$/,'');
-  $("#status").textContent="فحص الاتصال…";
-  try{ const r=await fetch(BASE+"/health"); const t=await r.text(); $("#status").textContent=r.ok?"متصل ✅ "+t:"غير متصل ("+r.status+")"; }
-  catch(e){ $("#status").textContent="غير متصل: "+e.message; }
+/* ========== AUTH LOGIC ========= */
+const auth = {
+  showLogin(){ loginBox.classList.remove('hidden'); signupBox.classList.add('hidden'); tabLogin.style.color='var(--gold)'; tabSignup.style.color='inherit'; },
+  showSignup(){ signupBox.classList.remove('hidden'); loginBox.classList.add('hidden'); tabSignup.style.color='var(--gold)'; tabLogin.style.color='inherit'; },
+  login(){ 
+    const phone = document.getElementById('loginPhone').value.trim();
+    const pass  = document.getElementById('loginPass').value.trim();
+    if(!phone||!pass){ alert('أدخل الهاتف وكلمة المرور'); return; }
+    localStorage.setItem('user', JSON.stringify({ name: 'مستخدم', phone }));
+    goHome();
+  },
+  signup(){
+    const name = document.getElementById('nameNew').value.trim();
+    const phone= document.getElementById('phoneNew').value.trim();
+    const pass = document.getElementById('passNew').value.trim();
+    if(!name||!phone||!pass){ alert('أكمل الحقول'); return; }
+    localStorage.setItem('user', JSON.stringify({ name, phone }));
+    goHome();
+  }
 };
 
-/* تشغيل أولي */
-renderProducts();
-drawCart();
+const tabLogin  = document.getElementById('tabLogin');
+const tabSignup = document.getElementById('tabSignup');
+const loginBox  = document.getElementById('loginBox');
+const signupBox = document.getElementById('signupBox');
+tabLogin.onclick  = ()=>auth.showLogin();
+tabSignup.onclick = ()=>auth.showSignup();
+document.getElementById('doLogin').onclick  = ()=>auth.login();
+document.getElementById('doSignup').onclick = ()=>auth.signup();
+
+/* ======= ON LOAD: auto-login if user exists ======= */
+(function(){
+  const u = localStorage.getItem('user');
+  if(u) goHome();
+})();
+function goHome(){
+  const u = JSON.parse(localStorage.getItem('user')||'{}');
+  document.getElementById('hello').textContent = 'مرحبًا بك، '+ (u.name || u.phone || 'ضيف');
+  document.getElementById('auth').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+}
+
+/* ========== OPTIONS INTERACTION ========= */
+document.querySelectorAll('.chip').forEach(ch=>{
+  ch.onclick = ()=>{ // تفعيل بصري
+    const peers = ch.parentElement.querySelectorAll('.chip');
+    peers.forEach(p=>p.classList.remove('active'));
+    ch.classList.add('active');
+  };
+});
+
+/* ========== DATA ========= */
+const PRODUCTS = [
+  { id:'p1', title:'طريز كلاسيكي', price:28000, img:'images (1) (1).jpeg' },
+  { id:'p2', title:'طريز عصري',    price:32000, img:'images (14).jpeg'    },
+  { id:'p3', title:'طريز رسمي',    price:40000, img:'images (15).jpeg'    },
+];
+const OFFERS = [
+  { id:'o1', title:'عرض -20%', price:26000, img:'images (14).jpeg' },
+  { id:'o2', title:'سعر مميز',   price:30000, img:'images (1) (1).jpeg' },
+];
+
+const fmt = n => (n||0).toLocaleString('ar-MR');
+
+/* ========== RENDER GRIDS ========= */
+function card(item){
+  const el = document.createElement('div'); el.className='product';
+  el.innerHTML = `
+    <div class="thumb"><img alt="${item.title}" src="${item.img}" onerror="this.src='images/${item.img}'"></div>
+    <div class="meta">
+      <b>${item.title}</b>
+      <div class="price">${fmt(item.price)} أوقية</div>
+      <div class="actions">
+        <button class="btn" onclick="addToCart('${item.id}')">أضف للسلة</button>
+        <button class="pill" onclick="fav('${item.id}')">أعجبني</button>
+      </div>
+    </div>`;
+  return el;
+}
+function render(){
+  const offers = document.getElementById('offers'); offers.innerHTML='';
+  OFFERS.forEach(x=>offers.appendChild(card(x)));
+  const cat = document.getElementById('catalog'); cat.innerHTML='';
+  PRODUCTS.forEach(x=>cat.appendChild(card(x)));
+}
+render();
+
+/* ========== CART & FAV (front-only) ========= */
+let CART=[], FAV=[];
+function addToCart(id){
+  const item = [...PRODUCTS, ...OFFERS].find(x=>x.id===id);
+  if(!item) return;
+  CART.push(item);
+  alert('أضيف إلى السلة: '+item.title);
+}
+function fav(id){
+  const item = [...PRODUCTS, ...OFFERS].find(x=>x.id===id);
+  if(!item) return;
+  if(!FAV.find(x=>x.id===id)) FAV.push(item);
+  alert('أُضيف لقائمة الإعجاب');
+}
+
+/* ========== BOTTOM TABS ========= */
+function activateTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='tabCart') alert('عدد العناصر في السلة: '+CART.length);
+  if(id==='tabFav')  alert('عدد العناصر المعجبة: '+FAV.length);
+  if(id==='tabMsg')  alert('تواصل معنا على: واتساب 22223333');
+}
+document.getElementById('tabCart').onclick = ()=>activateTab('tabCart');
+document.getElementById('tabFav').onclick  = ()=>activateTab('tabFav');
+document.getElementById('tabHome').onclick = ()=>activateTab('tabHome');
+document.getElementById('tabMsg').onclick  = ()=>activateTab('tabMsg');
 </script>
 </body>
 </html>
