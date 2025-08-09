@@ -1,99 +1,174 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>طلب الدراعة – تجربة دفع</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>طلب الدراعة – تجربة الدفع</title>
 <style>
-  body{font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", sans-serif; background:#f8fafc; color:#0f172a; margin:0}
-  .wrap{max-width:680px;margin:24px auto;padding:16px}
-  .card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin-bottom:12px}
-  .btn{padding:.6rem 1rem;border-radius:10px;border:1px solid #059669;background:#059669;color:#fff}
-  .btn.secondary{background:#fff;color:#0f172a;border-color:#cbd5e1}
-  .muted{color:#64748b}
-  code{background:#f1f5f9;border:1px solid #e2e8f0;padding:2px 6px;border-radius:6px}
+  :root{
+    --bg:#f7fafc;              /* خلفية عامة */
+    --card:#ffffff;            /* بطاقات */
+    --ink:#0f172a;             /* نص رئيسي */
+    --muted:#64748b;           /* نص ثانوي */
+    --blue:#e7f0fb;            /* أزرق قماش فاتح */
+    --blue-ink:#0d3b66;        /* أزرق غامق للنص */
+    --gold:#c89a2b;            /* ذهبي خنط */
+    --gold-700:#a67e1f;
+    --line:#e2e8f0;
+    --shadow: 0 10px 30px rgba(13,59,102,.06), 0 2px 10px rgba(0,0,0,.04);
+    --radius:18px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,var(--blue) 0%, #eef5ff 30%, var(--bg) 100%);color:var(--ink);
+       font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Arabic","Noto Naskh Arabic",sans-serif;}
+  .wrap{max-width:860px;margin:auto;padding:20px}
+  header{
+    background:linear-gradient(135deg, rgba(200,154,43,.08), rgba(13,59,102,.06));
+    border:1px solid var(--line); border-radius:24px; padding:18px 16px; box-shadow: var(--shadow);
+    display:flex; align-items:center; gap:12px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:12px;
+  }
+  .mark{width:42px;height:42px;border-radius:12px; background: radial-gradient(circle at 30% 30%, #fbe8b4, var(--gold));
+        border:2px solid var(--gold-700); box-shadow: inset 0 0 0 2px rgba(255,255,255,.4);}
+  h1{margin:0;font-size:20px;color:var(--blue-ink)}
+  .sub{color:var(--muted);margin-top:4px;font-size:14px}
+
+  .grid{display:grid;gap:14px;margin-top:14px}
+  @media(min-width:900px){ .grid{grid-template-columns: 1.2fr 1fr} }
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+  .title{font-weight:700;margin:0 0 10px 0;color:var(--blue-ink)}
+  label{font-weight:600;font-size:14px;color:var(--ink)}
+  input[type="text"]{width:100%;padding:.75rem;border:1px solid var(--line);border-radius:12px;background:#fff}
+  select{padding:.6rem .8rem;border:1px solid var(--line);border-radius:12px;background:#fff;min-width:160px}
+  .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .btn{padding:.7rem 1.1rem;border-radius:12px;border:1px solid var(--gold);background:var(--gold);color:#fff;
+       cursor:pointer;font-weight:700}
+  .btn:hover{background:var(--gold-700);border-color:var(--gold-700)}
+  .btn.secondary{background:#fff;color:var(--ink);border-color:var(--line)}
+  .btn.secondary:hover{background:#f9fafb}
+  .meta code{background:#f1f5f9;border:1px solid var(--line);padding:3px 8px;border-radius:8px}
+  .log{background:#0b1220;color:#d2e0ff;border-radius:14px;padding:12px;min-height:140px;white-space:pre-wrap;overflow:auto;border:1px solid #10192d}
+  .status{color:var(--muted);margin-top:6px}
+  .hint{font-size:12px;color:var(--muted)}
+
+  /* شريط علوي يشبه ياقة الدراعة */
+  .collar{
+    position:relative;border-radius:16px;background:linear-gradient(135deg,#fff, #f6f8fc);
+    border:1px dashed rgba(200,154,43,.4);padding:14px;margin-bottom:12px
+  }
+  .collar:before,.collar:after{
+    content:"";position:absolute;top:8px;width:18px;height:54px;border-radius:9px;background:var(--gold);
+    box-shadow:inset 0 0 0 3px #f9e7b1
+  }
+  .collar:before{right:18px}
+  .collar:after{right:40px;height:34px;top:28px}
 </style>
+
 <body>
-<div class="wrap">
-  <h1>طلب الدراعة – تجربة الدفع</h1>
-  <p class="muted">اختر مزوّد الدفع، أنشئ عملية دفع، ثم حاكي النجاح أو افحص الحالة.</p>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="mark"></div>
+        <div>
+          <h1>طلب الدراعة – تجربة الدفع</h1>
+          <div class="sub">ألوان واقعية (أزرق فاتح + خنط ذهبي) – تجربة إنشاء عملية دفع والتحقق/المحاكاة</div>
+        </div>
+      </div>
+    </header>
 
-  <div class="card">
-    <label>رابط الباكند (Render)</label><br>
-    <input id="base" style="width:100%;padding:.6rem;border:1px solid #cbd5e1;border-radius:10px"
-           value="https://darraa-pay-backend.onrender.com">
+    <div class="grid">
+      <!-- العمود الأيسر: الإعداد والتنفيذ -->
+      <section class="card">
+        <div class="collar"></div>
+        <h2 class="title">الإعداد</h2>
+
+        <div class="row" style="margin-bottom:10px">
+          <div style="flex:1">
+            <label>رابط الباكند (Render)</label>
+            <input id="base" type="text" value="https://darraa-pay-backend.onrender.com" />
+            <div class="hint">يمكنك تغييره هنا متى ما تغيّر رابط Render.</div>
+          </div>
+        </div>
+
+        <h2 class="title" style="margin-top:18px">الدفع</h2>
+        <div class="row" style="justify-content:space-between">
+          <div class="row">
+            <label>المزوّد</label>
+            <select id="provider">
+              <option value="bankily">Bankily</option>
+              <option value="sedad">Sedad</option>
+              <option value="masrvi">Masrvi</option>
+            </select>
+          </div>
+          <button class="btn" onclick="createPayment()">ادفع الآن</button>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <h3 class="title" style="font-size:16px">معلومات العملية</h3>
+          <div class="row meta">
+            <div>paymentId: <code id="pid">-</code></div>
+            <div>merchantRef: <code id="mref">-</code></div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:12px">
+          <button class="btn" onclick="checkStatus()">تحقق من الحالة</button>
+          <button class="btn secondary" onclick="simulate('success')">محاكاة نجاح</button>
+          <button class="btn secondary" onclick="simulate('failed')">محاكاة فشل</button>
+        </div>
+        <div class="status" id="status">الحالة: -</div>
+      </section>
+
+      <!-- العمود الأيمن: السجل -->
+      <section class="card">
+        <h2 class="title">السجل</h2>
+        <pre id="log" class="log">جاهز للتجربة…</pre>
+      </section>
+    </div>
   </div>
 
-  <div class="card">
-    <h3>1) اختيار المزوّد</h3>
-    <select id="provider" style="padding:.6rem;border:1px solid #cbd5e1;border-radius:10px">
-      <option value="bankily">Bankily</option>
-      <option value="sedad">Sedad</option>
-      <option value="masrvi">Masrvi</option>
-    </select>
-    <button class="btn" onclick="createPayment()">ادفع الآن</button>
-  </div>
+  <script>
+    let paymentId=null, merchantRef=null;
+    function log(msg){ const el=document.getElementById('log'); el.textContent += (msg+"\n"); el.scrollTop=el.scrollHeight; }
 
-  <div class="card">
-    <h3>2) معلومات العملية</h3>
-    <div>paymentId: <code id="pid">-</code></div>
-    <div>merchantRef: <code id="mref">-</code></div>
-  </div>
+    async function createPayment(){
+      const BASE=document.getElementById('base').value.trim();
+      const provider=document.getElementById('provider').value;
+      log("POST "+BASE+"/payments/create …");
+      const r=await fetch(BASE+"/payments/create",{
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body:JSON.stringify({ orderId:460003, amountMRU:46000, provider })
+      });
+      const data=await r.json(); log(JSON.stringify(data,null,2));
+      paymentId=data.paymentId; merchantRef=data.merchantRef;
+      document.getElementById('pid').textContent=paymentId??"-";
+      document.getElementById('mref').textContent=merchantRef??"-";
+    }
 
-  <div class="card">
-    <h3>3) التحقق/المحاكاة</h3>
-    <button class="btn" onclick="checkStatus()">تحقق من الحالة</button>
-    <button class="btn secondary" onclick="simulate('success')">محاكاة نجاح</button>
-    <button class="btn secondary" onclick="simulate('failed')">محاكاة فشل</button>
-    <div class="muted" id="status" style="margin-top:8px">الحالة: -</div>
-  </div>
+    async function checkStatus(){
+      if(!paymentId) return alert("أنشئ عملية أولاً");
+      const BASE=document.getElementById('base').value.trim();
+      log("GET "+BASE+"/payments/"+paymentId+"/status …");
+      const r=await fetch(BASE+"/payments/"+paymentId+"/status");
+      const data=await r.json(); log(JSON.stringify(data,null,2));
+      document.getElementById('status').textContent="الحالة: "+(data.status||"-");
+    }
 
-  <div class="card">
-    <h3>السجل</h3>
-    <pre id="log" style="white-space:pre-wrap"></pre>
-  </div>
-</div>
-
-<script>
-  let paymentId=null, merchantRef=null;
-
-  function log(msg){ document.getElementById('log').textContent += msg + "\n"; }
-
-  async function createPayment(){
-    const BASE_URL = document.getElementById('base').value.trim();
-    const provider = document.getElementById('provider').value;
-    log("POST /payments/create ...");
-    const r = await fetch(BASE_URL + "/payments/create", {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ orderId:460003, amountMRU:46000, provider })
-    });
-    const data = await r.json(); log(JSON.stringify(data, null, 2));
-    paymentId = data.paymentId; merchantRef = data.merchantRef;
-    document.getElementById('pid').textContent = paymentId ?? "-";
-    document.getElementById('mref').textContent = merchantRef ?? "-";
-  }
-
-  async function checkStatus(){
-    if(!paymentId) return alert("أنشئ عملية أولاً");
-    const BASE_URL = document.getElementById('base').value.trim();
-    log("GET /payments/"+paymentId+"/status ...");
-    const r = await fetch(BASE_URL + "/payments/" + paymentId + "/status");
-    const data = await r.json(); log(JSON.stringify(data, null, 2));
-    document.getElementById('status').textContent = "الحالة: " + (data.status || "-");
-  }
-
-  async function simulate(status){
-    if(!merchantRef) return alert("أنشئ عملية أولاً");
-    const BASE_URL = document.getElementById('base').value.trim();
-    log("POST /simulate/webhook ...");
-    const r = await fetch(BASE_URL + "/simulate/webhook", {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ secret:"letmein", provider:document.getElementById('provider').value, merchantRef, status })
-    });
-    const data = await r.json(); log(JSON.stringify(data, null, 2));
-    await checkStatus();
-  }
-</script>
+    async function simulate(status){
+      if(!merchantRef) return alert("أنشئ عملية أولاً");
+      const BASE=document.getElementById('base').value.trim();
+      log("POST "+BASE+"/simulate/webhook …");
+      const r=await fetch(BASE+"/simulate/webhook",{
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body:JSON.stringify({ secret:"letmein", provider:document.getElementById('provider').value, merchantRef, status })
+      });
+      const data=await r.json(); log(JSON.stringify(data,null,2));
+      await checkStatus();
+    }
+  </script>
 </body>
-  </html>
+</html>
