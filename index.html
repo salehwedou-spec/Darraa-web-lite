@@ -1,5 +1,6 @@
-<!doctype html>
+    <!doctype html>
 <html lang="ar" dir="rtl">
+<head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>متجر الدراعة | طلب سريع</title>
@@ -12,6 +13,8 @@
   *{box-sizing:border-box}
   body{margin:0;background:linear-gradient(180deg,var(--blue) 0%, #eef5ff 30%, var(--bg) 100%);color:var(--ink);
        font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Arabic","Noto Naskh Arabic",sans-serif}
+  a{color:inherit;text-decoration:none}
+
   .shell{max-width:1100px;margin:auto;padding:16px}
   header{background:#fff;border:1px solid var(--line);border-radius:20px;padding:10px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow)}
   .brand{display:flex;align-items:center;gap:10px}
@@ -61,9 +64,10 @@
   .total{display:flex;justify-content:space-between;font-weight:800}
   .paybox{display:grid;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fafcff}
 </style>
-
+</head>
 <body>
   <div class="shell">
+    <!-- Header -->
     <header>
       <div class="brand">
         <div class="mark"></div>
@@ -77,6 +81,7 @@
       </div>
     </header>
 
+    <!-- Hero -->
     <section class="hero">
       <div class="row">
         <div>
@@ -92,12 +97,14 @@
       </div>
     </section>
 
+    <!-- Products -->
     <section class="section">
       <h2 class="title">الطريزات المتوفرة</h2>
       <div id="grid" class="grid"></div>
     </section>
   </div>
 
+  <!-- Drawer: Cart -->
   <div class="drawer" id="drawer">
     <div class="shade" id="closeDrawer"></div>
     <aside class="panel">
@@ -113,18 +120,27 @@
         <label><input type="radio" name="pay" value="masrvi"> Masrvi</label>
         <button class="btn" id="checkoutBtn">ادفع الآن</button>
         <div class="mini" id="status">الحالة: -</div>
+        <!-- غيّر الرابط هنا لو تغيّر عنوان الباكند -->
         <input id="base" type="text" style="width:100%" value="https://darraa-pay-backend.onrender.com">
       </div>
     </aside>
   </div>
 
 <script>
-/* الصور التي رفعتها بأسمائها الحالية */
-const DESIGNS = [
-  { id:"dz1", title:"طريز كلاسيكي", price:28000, colors:["#e7f0fb","#ffffff","#c89a2b"], img:"images/images (1) (1).jpeg" },
-  { id:"dz2", title:"طريز عصري",    price:32000, colors:["#d9e8ff","#ffffff","#c89a2b"], img:"images/images (14).jpeg" },
-  { id:"dz3", title:"طريز رسمي",    price:40000, colors:["#cfe0ff","#ffffff","#c89a2b"], img:"images/images (15).jpeg" },
+/* صورك كما هي بأسمائها الحالية (في جذر المستودع). سنضيف fallback تلقائي لمجلد images/ */
+const IMAGE_FILES = [
+  "images (1) (1).jpeg",
+  "images (14).jpeg",
+  "images (15).jpeg"
 ];
+
+/* الطريزات */
+const DESIGNS = [
+  { id:"dz1", title:"طريز كلاسيكي", price:28000, colors:["#e7f0fb","#ffffff","#c89a2b"], img: IMAGE_FILES[0] },
+  { id:"dz2", title:"طريز عصري",    price:32000, colors:["#d9e8ff","#ffffff","#c89a2b"], img: IMAGE_FILES[1] },
+  { id:"dz3", title:"طريز رسمي",    price:40000, colors:["#cfe0ff","#ffffff","#c89a2b"], img: IMAGE_FILES[2] },
+];
+
 /* أنواع القماش */
 const FABRICS = [
   { id:"azbi",     name:"أزبي",      extra:0,    colors:["#e7f0fb","#ffffff","#bcd3ff"] },
@@ -135,6 +151,7 @@ const FABRICS = [
   { id:"sandasiya",name:"صاندسيه",   extra:6000, colors:["#dae6ff","#ffffff","#b5c7ea"] },
   { id:"osaka",    name:"اوزاكا",    extra:9000, colors:["#c8dcff","#ffffff","#a6b7d3"] },
 ];
+
 /* النقوش */
 const PATTERNS = [
   { id:"betiba",   name:"بتيبا",   extra:0    },
@@ -143,20 +160,29 @@ const PATTERNS = [
   { id:"dollar",   name:"الدولار", extra:3000 },
   { id:"muqaddam", name:"المقدم",  extra:4000 },
 ];
+
 const BASE_SEWING = 2000;
 
 let cart = [];
 const $ = q=>document.querySelector(q);
 const fmt = n=> (n||0).toLocaleString("ar-MR");
 
+/* يساعد على إظهار الصورة سواء كانت بالمسار الجذري أو داخل مجلد images/ */
+function attachImage(imgEl, filename){
+  imgEl.src = filename;                 // جرّب في الجذر
+  imgEl.onerror = () => { imgEl.src = "images/" + filename; }; // إن فشل، جرّب داخل مجلد images/
+}
+
 function renderProducts(){
   const g = $("#grid"); g.innerHTML="";
   DESIGNS.forEach(d=>{
     const card = document.createElement("div"); card.className="card";
+
     const thumb = document.createElement("div"); thumb.className="thumb";
-    /* عرض الصورة كـ <img> لضمان عمل أسماء تحتوي مسافات وأقواس */
     const img = document.createElement("img");
-    img.src = d.img; img.alt = d.title; thumb.appendChild(img);
+    attachImage(img, d.img);
+    img.alt = d.title;
+    thumb.appendChild(img);
 
     const title = document.createElement("div"); title.style.fontWeight="800"; title.textContent=d.title;
     const price = document.createElement("div"); price.className="price"; price.textContent = fmt(d.price) + " أوقية";
@@ -219,14 +245,21 @@ function drawCart(){
   let total = 0;
   cart.forEach(item=>{
     const line = document.createElement("div"); line.className="cart-item";
-    const sw = document.createElement("img"); sw.src=item.img; sw.alt=""; sw.style.width="54px"; sw.style.height="54px"; sw.style.objectFit="cover"; sw.style.borderRadius="8px"; sw.style.border="1px solid var(--line)";
+
+    const sw = document.createElement("img");
+    attachImage(sw, item.img);
+    sw.alt=""; sw.style.width="54px"; sw.style.height="54px";
+    sw.style.objectFit="cover"; sw.style.borderRadius="8px"; sw.style.border="1px solid var(--line)";
+
     const info = document.createElement("div");
     info.innerHTML = `<div style="font-weight:700">${item.title}</div>
                       <div class="mini">${item.fabricName} (+${fmt(item.fabricExtra)}) • نقش: ${item.patternName} (+${fmt(item.patternExtra)})</div>`;
+
     const sum = item.designPrice + item.fabricExtra + item.patternExtra + BASE_SEWING; total += sum;
     const price = document.createElement("div"); price.style.marginInlineStart="auto"; price.innerHTML = `<b>${fmt(sum)}</b>`;
     const del = document.createElement("button"); del.className="pill"; del.textContent="حذف";
     del.onclick = ()=>{ cart = cart.filter(x=>x.id!==item.id); drawCart(); };
+
     line.append(sw, info, price, del);
     box.append(line);
   });
